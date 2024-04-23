@@ -143,7 +143,7 @@ def process_trackers() -> dict:
     trackers_stat = {"new_road": [], "old_road": []}
     path = "data/trackers"  # путь до данных с трекеров
 
-    if os.name != "Linux":
+    if os.name != "posix":
         path = PureWindowsPath(path)
 
     for root, _, files in os.walk(path):
@@ -152,7 +152,7 @@ def process_trackers() -> dict:
                 continue
             file_path = os.path.join(root, file)
 
-            if os.uname().sysname != "Linux":
+            if os.name != "posix":
                 file_path = PurePosixPath(file_path)
 
             test_num = file_path.split("/")
@@ -180,7 +180,7 @@ def process_trackers() -> dict:
 
 #     path = "data/trackers"  # путь до данных с трекеров
 
-#     if os.uname().sysname != "Linux":
+#     if os.uname().sysname != "posix":
 #         path = PureWindowsPath(path)
 
 #     for root, _, files in os.walk(path):
@@ -189,7 +189,7 @@ def process_trackers() -> dict:
 #                 continue
 #             file_path = os.path.join(root, file)
 
-#             if os.uname().sysname != "Linux":
+#             if os.uname().sysname != "posix":
 #                 file_path = PurePosixPath(file_path)
 
 #             test_num = file_path.split("/")
@@ -214,14 +214,14 @@ def get_distance_between_heel() -> dict:
         for file in files:
             file_path = os.path.join(root, file)
 
-            if os.uname().sysname != "Linux":
+            if os.name!= "posix":
                 file_path = PurePosixPath(file_path)
 
             paths.append(file_path)
     for path in paths:
         test_num = path.split("/")
 
-        if os.uname().sysname != "Linux":
+        if os.name != "posix":
             data = np.load(PureWindowsPath(path))
         else:
             data = np.load(path)
@@ -238,7 +238,7 @@ def process_videos() -> None:
     """
     videos_path = "data/videos"
 
-    if os.uname().sysname != "Linux":
+    if os.name != "posix":
         videos_path = PureWindowsPath(videos_path)
 
     paths = []
@@ -246,7 +246,7 @@ def process_videos() -> None:
         for file in files:
             file_path = os.path.join(root, file)
 
-            if os.uname().sysname != "Linux":
+            if os.name != "posix":
                 file_path = PurePosixPath(file_path)
 
             paths.append(file_path)
@@ -257,7 +257,7 @@ def process_videos() -> None:
 
         test_num = path.split("/")
 
-        if os.uname().sysname != "Linux":
+        if os.name != "posix":
             path = PureWindowsPath(path)
 
         camera = Camera(path)
@@ -267,7 +267,7 @@ def process_videos() -> None:
 
         npy_path = f"data/points/{test_num[2]}/{file_name}"
 
-        if os.uname().sysname != "Linux":
+        if os.name != "posix":
             npy_path = PureWindowsPath(npy_path)
 
         camera.save_file(npy_path)
@@ -283,14 +283,14 @@ def get_hip() -> dict:
 
     points_path = "data/points"
 
-    if os.name != "Linux":
+    if os.name != "posix":
         points_path = PureWindowsPath(points_path)
 
     for root, _, files in os.walk(points_path):
         for file in files:
             file_path = os.path.join(root, file)
 
-            if os.uname().sysname != "Linux":
+            if os.name != "posix":
                 file_path = PurePosixPath(file_path)
 
             paths.append(file_path)
@@ -352,7 +352,7 @@ def create_table() -> None:
 
     paths = ["data/points/new_road", "data/points/old_road"]
 
-    if os.name != "Linux":
+    if os.name != "posix":
         paths = [PureWindowsPath(path) for  path in paths]
 
     for road_index, path in enumerate(paths):
@@ -360,7 +360,7 @@ def create_table() -> None:
             if not file_name.endswith('.npy'):
                 continue
             file_path = os.path.join(path, file_name)
-            if os.name == "Linux":
+            if os.name == "posix":
                 file_path = PurePosixPath(file_path)
 
             array = np.load(file_path)
